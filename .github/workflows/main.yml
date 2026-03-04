@@ -10,19 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: ssh into ec2
+      - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.AWS_TEST_EC2_IP }}
           username: ${{ secrets.AWS_TEST_EC2_USER }}
           key: ${{ secrets.AWS_TEST_EC2_SSH_KEY }}
           script: |
-              export PATH="$HOME/.local/bin:$PATH"
-              cd /var/www/fastapi-app
-              git pull origin dev
-              pm2 restart 0
-                
-          
+            export PATH="$HOME/.local/bin:$PATH"
+            cd /home/ubuntu/fastapi-cicd-demo
+            git pull origin dev
+            pm2 restart fastapi-app-dev
