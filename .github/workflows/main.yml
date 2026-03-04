@@ -14,13 +14,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: ssh into ec2
-        uses: appleboy/ssh-action@v2
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.AWS_TEST_EC2_IP }}
           username: ${{ secrets.AWS_TEST_EC2_USER }}
           key: ${{ secrets.AWS_TEST_EC2_SSH_KEY }}
           script: |
-              export PATH="$HOME/.cargo/bin:$PATH"
+              export PATH="$HOME/.local/bin:$PATH"
               cd /var/www/fastapi-app
               git pull origin dev
               pm2 restart 0
